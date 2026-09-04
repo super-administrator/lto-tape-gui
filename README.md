@@ -1,6 +1,17 @@
-# LTO LTFS GUI (Qt6, AlmaLinux x86)
+# LTO LTFS Manager
 
 面向现场磁带备份流程的 Qt6 图形界面，基于 LTFS，不使用 tar 打包。
+
+主要面向 AlmaLinux 8 x86_64 的 LTO/LTFS 工作流。欢迎通过
+[Issues](https://github.com/super-administrator/lto-tape-gui/issues) 反馈问题，
+或提交 Pull Request 改进项目。
+
+## 获取项目
+
+```bash
+git clone https://github.com/super-administrator/lto-tape-gui.git
+cd lto-tape-gui
+```
 
 ## 已实现功能
 
@@ -41,6 +52,7 @@
 ```text
 TAPE GUI/
 ├── README.md                   # 使用与维护说明
+├── LICENSE                     # MIT 开源许可证
 ├── requirements.txt            # 生产依赖版本
 ├── config/default.json         # 设备及备份默认配置
 ├── assets/lto-tape-gui.svg      # 应用图标
@@ -65,14 +77,19 @@ TAPE GUI/
 
 ## 依赖安装（AlmaLinux）
 
-> 下面命令以常见环境为例，具体包名可能因现场仓库略有差异。
+先安装 Python 3.11。AlmaLinux 8 的系统 Python 3.6 不适用于本项目；
+可按下文离线安装说明构建独立的 Python 3.11。以下命令中的 `python3.11`
+也可替换为 `/opt/lto-python311/bin/python3.11`。
 
 ```bash
-sudo dnf install -y python3 python3-pip rsync
-# LTFS/驱动工具按现场已安装版本为准（ltfs, mkltfs, ltfs_ordered_copy）
-python3 -m venv .venv
+sudo dnf install -y rsync
+python3.11 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 ```
+
+LTFS、磁带驱动和设备工具需另行安装：挂载和格式化使用 `ltfs`、`mkltfs`，
+顺序备份使用 `ltfs_ordered_copy`，弹出和卷带使用 `mt`，健康度检查使用 IBM `itdt`。
+这些工具不包含在 Python 依赖中；运行用户需具备设备访问和挂载权限。
 
 ## 内网离线部署（AlmaLinux 8 x86_64）
 
@@ -94,6 +111,8 @@ PYTHONPATH=src .venv/bin/python -m tape_gui.main
 ## 配置
 
 统一编辑 `config/default.json`，设备 ID、磁带设备、诊断设备和挂载目录应与现场对应。
+默认设备 ID 留空，首次使用时通过“扫描设备ID”获取自己的设备 ID；
+可将确认后的 ID 写入配置供下次启动使用。设备路径同样需要核对。
 默认使用 rsync，启用原地写入及增量备份；“增量备份”会跳过已存在的文件，
 不会更新目标中已有的同名文件。启用 LTFS 顺序优化时，这两个 rsync 选项会关闭。
 
@@ -115,3 +134,8 @@ PYTHONPATH=src .venv/bin/python -B -m unittest discover -s tests -v
 - 进度条对 `rsync --info=progress2` 解析较稳定；`ltfs_ordered_copy` 因输出格式差异使用忙碌条更稳妥。
 - 在线状态以设备 ID 和挂载状态为主；详细设备状态通过“健康度检查”读取。
 - POH 只在同一次 Linux 启动中按运行时间估算；MMH 以健康度检查的实际读数校准。
+
+## 开源许可
+
+本项目采用 [MIT License](LICENSE)。欢迎使用、修改和分发，分发时请保留版权及许可证声明。
+PySide6/Qt、Python、IBM LTFS 和其他第三方组件分别遵循各自的许可证。

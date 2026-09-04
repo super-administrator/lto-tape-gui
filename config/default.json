@@ -1,5 +1,5 @@
 {
-  "device_id": "10WT044393",
+  "device_id": "",
   "tape_device": "/dev/nst0",
   "eject_device": "/dev/st0",
   "diagnostic_device": "/dev/sg0",
