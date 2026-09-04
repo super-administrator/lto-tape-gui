@@ -1,0 +1,15 @@
+__pycache__/
+.DS_Store
+._*
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv/
+logs/
+offline/*
+!offline/almalinux8-x86_64-python3.11/
+offline/almalinux8-x86_64-python3.11/*
+!offline/almalinux8-x86_64-python3.11/INSTALL.md
+!offline/almalinux8-x86_64-python3.11/SHA256SUMS
+runtime_hours.txt

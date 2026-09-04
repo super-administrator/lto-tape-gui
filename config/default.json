@@ -1,0 +1,17 @@
+{
+  "device_id": "10WT044393",
+  "tape_device": "/dev/nst0",
+  "eject_device": "/dev/st0",
+  "diagnostic_device": "/dev/sg0",
+  "runtime_state_path": "runtime_hours.txt",
+  "mount_point": "/mnt/tape",
+  "default_backup_source": "/data",
+  "use_ordered_copy_default": false,
+  "use_inplace_default": true,
+  "use_ignore_existing_default": true,
+  "command_timeout_sec": 180,
+  "backup_timeout_sec": 86400,
+  "mount_wait_timeout_sec": 60,
+  "release_mode": "auto",
+  "minimum_free_bytes": 10737418240
+}
